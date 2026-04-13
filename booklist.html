@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>推荐书单 — 金牛读书</title>
+  <link rel="icon" href="./favicon.ico" type="image/x-icon" sizes="any" />
+  <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon" />
+  <script src="https://cdn.tailwindcss.com/3.4.1"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Noto Serif SC"', 'serif'],
+            sans: ['"Noto Sans SC"', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50:  '#fdf8f0',
+              100: '#f9edda',
+              200: '#f2d8b4',
+              300: '#e9bd84',
+              400: '#de9c53',
+              500: '#d68332',
+              600: '#c86c28',
+              700: '#a65323',
+              800: '#854323',
+              900: '#6c381f',
+            },
+          },
+        },
+      },
+    }
+  </script>
+  <style>
+    .fade-up {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stagger > *:nth-child(1) { transition-delay: 0s; }
+    .stagger > *:nth-child(2) { transition-delay: 0.08s; }
+    .stagger > *:nth-child(3) { transition-delay: 0.16s; }
+    .stagger > *:nth-child(4) { transition-delay: 0.24s; }
+    .stagger > *:nth-child(5) { transition-delay: 0.32s; }
+    .stagger > *:nth-child(6) { transition-delay: 0.40s; }
+    .stagger > *:nth-child(7) { transition-delay: 0.48s; }
+    .stagger > *:nth-child(8) { transition-delay: 0.56s; }
+
+    .nav-glass {
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+    }
+    .nav-solid {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #d4d4d4; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #a3a3a3; }
+
+    .card-lift {
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .card-lift:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px -12px rgba(0, 0, 0, 0.15);
+    }
+
+    .img-zoom img {
+      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .img-zoom:hover img {
+      transform: scale(1.05);
+    }
+
+    .text-gradient {
+      background: linear-gradient(135deg, #854323, #d68332);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .divider-line {
+      width: 48px;
+      height: 2px;
+      background: linear-gradient(90deg, #d68332, #e9bd84);
+    }
+  </style>
+</head>
+<body class="font-sans text-neutral-800 bg-white antialiased">
+
+  <!-- ===================== NAVIGATION ===================== -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-500 nav-glass">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 lg:h-20">
+        <a href="index.html" class="flex items-center gap-2 group">
+          <i class="fa-solid fa-book-open text-brand-600 text-xl group-hover:text-brand-700 transition-colors"></i>
+          <span class="text-lg font-semibold tracking-wide text-neutral-900">金牛读书</span>
+        </a>
+        <a href="index.html" class="inline-flex items-center gap-2 text-sm font-medium text-neutral-600 hover:text-brand-600 transition-colors group">
+          <i class="fa-solid fa-arrow-left text-xs group-hover:-translate-x-0.5 transition-transform"></i>
+          返回首页
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="relative h-[50vh] min-h-[400px] flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0">
+      <img src="https://picsum.photos/1920/1080?random=20" alt="" class="w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/60"></div>
+    </div>
+    <div class="relative z-10 text-center px-6 max-w-3xl mx-auto stagger">
+      <p class="fade-up text-white/80 text-sm font-light tracking-[0.3em] uppercase mb-4">Book List</p>
+      <h1 class="fade-up text-4xl md:text-6xl lg:text-7xl font-serif font-bold text-white leading-tight mb-4">
+        推荐书单
+      </h1>
+      <p class="fade-up text-lg text-white/60 font-light">
+        每一本书，都是一次灵魂的旅行
+      </p>
+    </div>
+  </section>
+
+  <!-- ===================== BOOK LIST ===================== -->
+  <section class="py-20 lg:py-28 bg-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <!-- Section intro -->
+      <div class="text-center mb-16 stagger">
+        <div class="fade-up">
+          <p class="text-brand-600 text-sm font-medium tracking-[0.2em] uppercase mb-4">Recommend</p>
+          <div class="divider-line mx-auto mb-8"></div>
+        </div>
+        <h2 class="fade-up text-2xl md:text-3xl font-serif font-bold mb-4">精选好书</h2>
+        <p class="fade-up text-neutral-500 max-w-xl mx-auto">这些书籍塑造了我的思考方式，也希望它们能为你带来启发与力量</p>
+      </div>
+
+      <!-- Book grid -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 stagger">
+
+        <!-- 1. 钱学森传 -->
+        <div class="fade-up card-lift bg-white rounded-2xl overflow-hidden shadow-sm border border-neutral-100">
+          <div class="img-zoom h-64 overflow-hidden">
+            <img src="https://picsum.photos/400/560?random=31" alt="钱学森传" class="w-full h-full object-cover" />
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <i class="fa-solid fa-star text-brand-400 text-xs"></i>
+              <span class="text-xs text-neutral-400 font-medium tracking-wider uppercase">传记</span>
+            </div>
+            <h3 class="text-lg font-semibold mb-2">钱学森传</h3>
+            <p class="text-neutral-500 text-sm leading-relaxed">一位伟大科学家的传奇人生，从美国到中国，用毕生心血铸就民族脊梁。</p>
+          </div>
+        </div>
+
+        <!-- 2. 毛泽东选集 -->
+        <div class="fade-up card-lift bg-white rounded-2xl overflow-hidden shadow-sm border border-neutral-100">
+          <div class="img-zoom h-64 overflow-hidden">
+            <img src="https://picsum.photos/400/560?random=32" alt="毛泽东选集" class="w-full h-full object-cover" />
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <i class="fa-solid fa-star text-brand-400 text-xs"></i>
+              <span class="text-xs text-neutral-400 font-medium tracking-wider uppercase">经典</span>
+            </div>
+            <h3 class="text-lg font-semibold mb-2">毛泽东选集</h3>
+            <p class="text-neutral-500 text-sm leading-relaxed">革命思想的经典文献，深刻剖析中国社会变革的底层逻辑与方法论。</p>
+          </div>
+        </div>
+
+        <!-- 3. 红星照耀中国 -->
+        <div class="fade-up card-lift bg-white rounded-2xl overflow-hidden shadow-sm border border-neutral-100">
+          <div class="img-zoom h-64 overflow-hidden">
+            <img src="https://picsum.photos/400/560?random=33" alt="红星照耀中国" class="w-full h-full object-cover" />
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <i class="fa-solid fa-star text-brand-400 text-xs"></i>
+              <span class="text-xs text-neutral-400 font-medium tracking-wider uppercase">纪实</span>
+            </div>
+            <h3 class="text-lg font-semibold mb-2">红星照耀中国</h3>
+            <p class="text-neutral-500 text-sm leading-relaxed">埃德加·斯诺的经典之作，以西方记者的视角记录红色中国的真实面貌。</p>
+          </div>
+        </div>
+
+        <!-- 4. 思考，快与慢 -->
+        <div class="fade-up card-lift bg-white rounded-2xl overflow-hidden shadow-sm border border-neutral-100">
+          <div class="img-zoom h-64 overflow-hidden">
+            <img src="https://picsum.photos/400/560?random=34" alt="思考，快与慢" class="w-full h-full object-cover" />
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <i class="fa-solid fa-star text-brand-400 text-xs"></i>
+              <span class="text-xs text-neutral-400 font-medium tracking-wider uppercase">心理学</span>
+            </div>
+            <h3 class="text-lg font-semibold mb-2">思考，快与慢</h3>
+            <p class="text-neutral-500 text-sm leading-relaxed">诺贝尔奖得主丹尼尔·卡尼曼揭示人类决策背后的两套思维系统。</p>
+          </div>
+        </div>
+
+        <!-- 5. 第三选择 -->
+        <div class="fade-up card-lift bg-white rounded-2xl overflow-hidden shadow-sm border border-neutral-100">
+          <div class="img-zoom h-64 overflow-hidden">
+            <img src="https://picsum.photos/400/560?random=35" alt="第三选择" class="w-full h-full object-cover" />
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <i class="fa-solid fa-star text-brand-400 text-xs"></i>
+              <span class="text-xs text-neutral-400 font-medium tracking-wider uppercase">思维</span>
+            </div>
+            <h3 class="text-lg font-semibold mb-2">第三选择</h3>
+            <p class="text-neutral-500 text-sm leading-relaxed">史蒂芬·柯维的智慧结晶，超越非此即彼的思维框架，找到协同共赢之道。</p>
+          </div>
+        </div>
+
+        <!-- 6. 中国通史 -->
+        <div class="fade-up card-lift bg-white rounded-2xl overflow-hidden shadow-sm border border-neutral-100">
+          <div class="img-zoom h-64 overflow-hidden">
+            <img src="https://picsum.photos/400/560?random=36" alt="中国通史" class="w-full h-full object-cover" />
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <i class="fa-solid fa-star text-brand-400 text-xs"></i>
+              <span class="text-xs text-neutral-400 font-medium tracking-wider uppercase">历史</span>
+            </div>
+            <h3 class="text-lg font-semibold mb-2">中国通史</h3>
+            <p class="text-neutral-500 text-sm leading-relaxed">纵览五千年华夏文明，从上古到近代，一部恢弘壮阔的中华民族史诗。</p>
+          </div>
+        </div>
+
+        <!-- 7. 哈利·波特 -->
+        <div class="fade-up card-lift bg-white rounded-2xl overflow-hidden shadow-sm border border-neutral-100">
+          <div class="img-zoom h-64 overflow-hidden">
+            <img src="https://picsum.photos/400/560?random=37" alt="哈利·波特" class="w-full h-full object-cover" />
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <i class="fa-solid fa-star text-brand-400 text-xs"></i>
+              <span class="text-xs text-neutral-400 font-medium tracking-wider uppercase">奇幻</span>
+            </div>
+            <h3 class="text-lg font-semibold mb-2">哈利·波特</h3>
+            <p class="text-neutral-500 text-sm leading-relaxed">J.K.罗琳创造的魔法世界，关于勇气、友谊与爱的永恒故事。</p>
+          </div>
+        </div>
+
+        <!-- 8. 纳尼亚传奇 -->
+        <div class="fade-up card-lift bg-white rounded-2xl overflow-hidden shadow-sm border border-neutral-100">
+          <div class="img-zoom h-64 overflow-hidden">
+            <img src="https://picsum.photos/400/560?random=38" alt="纳尼亚传奇" class="w-full h-full object-cover" />
+          </div>
+          <div class="p-6">
+            <div class="flex items-center gap-2 mb-3">
+              <i class="fa-solid fa-star text-brand-400 text-xs"></i>
+              <span class="text-xs text-neutral-400 font-medium tracking-wider uppercase">奇幻</span>
+            </div>
+            <h3 class="text-lg font-semibold mb-2">纳尼亚传奇</h3>
+            <p class="text-neutral-500 text-sm leading-relaxed">C.S.路易斯笔下的奇幻王国，衣橱背后是一个充满信仰与冒险的世界。</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CTA ===================== -->
+  <section class="relative py-24 lg:py-32 overflow-hidden">
+    <div class="absolute inset-0">
+      <img src="https://picsum.photos/1920/1080?random=39" alt="" class="w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-black/60"></div>
+    </div>
+    <div class="relative z-10 text-center px-6 max-w-2xl mx-auto stagger">
+      <div class="fade-up">
+        <i class="fa-solid fa-quote-left text-3xl text-brand-400/60 mb-6 block"></i>
+      </div>
+      <p class="fade-up text-2xl md:text-3xl font-serif text-white leading-relaxed mb-6">
+        读书不是为了雄辩和驳斥，<br/>而是为了思考和权衡
+      </p>
+      <div class="fade-up">
+        <div class="divider-line mx-auto mb-6"></div>
+        <p class="text-white/60 text-sm tracking-widest mb-10">— 弗朗西斯·培根</p>
+      </div>
+      <div class="fade-up">
+        <a href="index.html#contact" class="inline-flex items-center gap-3 px-8 py-3.5 bg-white text-neutral-900 text-sm font-medium rounded-full hover:bg-brand-50 transition-all duration-300 group">
+          <i class="fa-solid fa-paper-plane text-xs"></i>
+          一起读书
+          <i class="fa-solid fa-arrow-right text-xs group-hover:translate-x-0.5 transition-transform"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="bg-neutral-900 text-white">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+      <div class="grid md:grid-cols-3 gap-12 items-start">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <i class="fa-solid fa-book-open text-brand-400 text-xl"></i>
+            <span class="text-lg font-semibold">金牛读书</span>
+          </div>
+          <p class="text-neutral-400 text-sm leading-relaxed">
+            致力于女性成长与自我突破<br/>用阅读点亮内心的光
+          </p>
+        </div>
+        <div>
+          <h4 class="text-sm font-semibold text-neutral-300 uppercase tracking-wider mb-4">导航</h4>
+          <ul class="space-y-3">
+            <li><a href="index.html#about" class="text-neutral-400 text-sm hover:text-white transition-colors">关于我</a></li>
+            <li><a href="index.html#mission" class="text-neutral-400 text-sm hover:text-white transition-colors">我的使命</a></li>
+            <li><a href="index.html#hobbies" class="text-neutral-400 text-sm hover:text-white transition-colors">我的热爱</a></li>
+            <li><a href="index.html#contact" class="text-neutral-400 text-sm hover:text-white transition-colors">联系我</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-sm font-semibold text-neutral-300 uppercase tracking-wider mb-4">社交媒体</h4>
+          <div class="flex gap-3">
+            <span class="w-10 h-10 bg-neutral-800 rounded-lg flex items-center justify-center hover:bg-brand-700 transition-colors cursor-pointer">
+              <i class="fa-brands fa-weixin text-neutral-400 hover:text-white"></i>
+            </span>
+            <span class="w-10 h-10 bg-neutral-800 rounded-lg flex items-center justify-center hover:bg-brand-700 transition-colors cursor-pointer">
+              <i class="fa-brands fa-weibo text-neutral-400 hover:text-white"></i>
+            </span>
+            <span class="w-10 h-10 bg-neutral-800 rounded-lg flex items-center justify-center hover:bg-brand-700 transition-colors cursor-pointer">
+              <i class="fa-solid fa-book-bookmark text-neutral-400 hover:text-white"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-neutral-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-neutral-500 text-xs">&copy; 2026 金牛读书. All rights reserved.</p>
+        <p class="text-neutral-600 text-xs">用阅读丈量世界</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================== JAVASCRIPT ===================== -->
+  <script>
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+    );
+    document.querySelectorAll('.fade-up').forEach((el) => observer.observe(el));
+
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 80) {
+        navbar.classList.remove('nav-glass');
+        navbar.classList.add('nav-solid');
+      } else {
+        navbar.classList.add('nav-glass');
+        navbar.classList.remove('nav-solid');
+      }
+    }, { passive: true });
+  </script>
+
+</body>
+</html>
